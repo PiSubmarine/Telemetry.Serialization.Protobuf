@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package pisubmarine.telemetry.protobuf;
+
+message BatteryState
+{
+  double pack_voltage = 1;
+  double charger_voltage = 2;
+  double pack_current = 3;
+  double charger_current = 4;
+  double charger_temperature = 5;
+  double pack_temperature = 6;
+  double monitor_temperature = 7;
+  double remaining_capacity = 8;
+  double state_of_charge = 9;
+  optional int64 time_to_full_ms = 10;
+  optional int64 time_to_empty_ms = 11;
+}
+
+message MotorState
+{
+  enum OperationalState
+  {
+    OPERATIONAL = 0;
+    DEGRADED = 1;
+    FAULTED = 2;
+  }
+
+  OperationalState operational = 1;
+  uint32 active_faults = 2;
+  uint32 active_warnings = 3;
+}
+
+message TelemetrySnapshot
+{
+  optional double depth_meters = 1;
+  optional double distance_to_seafloor_meters = 2;
+  optional BatteryState battery_state = 3;
+  repeated MotorState thrusters = 4;
+  optional double ballast_position = 5;
+}
